@@ -7,7 +7,7 @@ import (
 
 // String returns a currency pair string
 func (p Pair) String() string {
-	return p.Base.String() + p.Delimiter + p.Quote.String()
+	return p.Base.String() + p.Delimiter + p.Quote.String() + p.Suffix
 }
 
 // Lower converts the pair object to lowercase
@@ -16,6 +16,7 @@ func (p Pair) Lower() Pair {
 		Delimiter: p.Delimiter,
 		Base:      p.Base.Lower(),
 		Quote:     p.Quote.Lower(),
+		Suffix:    strings.ToLower(p.Suffix),
 	}
 }
 
@@ -25,6 +26,7 @@ func (p Pair) Upper() Pair {
 		Delimiter: p.Delimiter,
 		Base:      p.Base.Upper(),
 		Quote:     p.Quote.Upper(),
+		Suffix:    strings.ToUpper(p.Suffix),
 	}
 }
 
@@ -44,6 +46,7 @@ func (p *Pair) UnmarshalJSON(d []byte) error {
 	p.Base = newPair.Base
 	p.Quote = newPair.Quote
 	p.Delimiter = newPair.Delimiter
+	p.Suffix = newPair.Suffix
 	return nil
 }
 
