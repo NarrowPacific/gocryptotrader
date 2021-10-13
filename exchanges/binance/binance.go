@@ -49,6 +49,7 @@ const (
 	userAccountStream = "/api/v3/userDataStream"
 	perpExchangeInfo  = "/fapi/v1/exchangeInfo"
 	historicalTrades  = "/api/v3/historicalTrades"
+	trades            = "/api/v3/trades"
 
 	// Authenticated endpoints
 	newOrderTest      = "/api/v3/order/test"
@@ -56,6 +57,7 @@ const (
 	openOrders        = "/api/v3/openOrders"
 	allOrders         = "/api/v3/allOrders"
 	accountInfo       = "/api/v3/account"
+	myTrades          = "/api/v3/myTrades"
 	marginAccountInfo = "/sapi/v1/margin/account"
 
 	// Withdraw API endpoints
@@ -199,7 +201,7 @@ func (b *Binance) GetMostRecentTrades(ctx context.Context, rtr RecentTradeReques
 }
 
 // GetHistoricalTrades returns historical trade activity
-//
+// Require API-Key
 // symbol: string of currency pair
 // limit: Optional. Default 500; max 1000.
 // fromID:
@@ -217,6 +219,22 @@ func (b *Binance) GetHistoricalTrades(ctx context.Context, symbol string, limit 
 	path := historicalTrades + "?" + params.Encode()
 	return resp,
 		b.SendAPIKeyHTTPRequest(ctx, exchange.RestSpotSupplementary, path, spotDefaultRate, &resp)
+}
+
+// GetTrades returns recent trades
+//
+// symbol: string of currency pair
+// limit: Optional. Default 500; max 1000.
+func (b *Binance) GetTrades(ctx context.Context, symbol string, limit int) ([]HistoricalTrade, error) {
+	var resp []HistoricalTrade
+	params := url.Values{}
+
+	params.Set("symbol", symbol)
+	params.Set("limit", fmt.Sprintf("%d", limit))
+
+	path := trades + "?" + params.Encode()
+	return resp,
+		b.SendHTTPRequest(ctx, exchange.RestSpotSupplementary, path, spotDefaultRate, &resp)
 }
 
 // GetAggregatedTrades returns aggregated trade activity.
@@ -640,7 +658,9 @@ func (b *Binance) OpenOrders(ctx context.Context, pair currency.Pair) ([]QueryOr
 // AllOrders Get all account orders; active, canceled, or filled.
 // orderId optional param
 // limit optional param, default 500; max 500
-func (b *Binance) AllOrders(ctx context.Context, symbol currency.Pair, orderID, limit string) ([]QueryOrderData, error) {
+// from optional param, int64 (ms)
+// to optional param, int64 (ms)
+func (b *Binance) AllOrders(ctx context.Context, symbol currency.Pair, orderID, limit string, from, to int64) ([]QueryOrderData, error) {
 	var resp []QueryOrderData
 
 	params := url.Values{}
@@ -655,10 +675,58 @@ func (b *Binance) AllOrders(ctx context.Context, symbol currency.Pair, orderID, 
 	if limit != "" {
 		params.Set("limit", limit)
 	}
+	if from != 0 {
+		params.Set("startTime", fmt.Sprintf("%d", from))
+	}
+	if to != 0 {
+		params.Set("endTime", fmt.Sprintf("%d", to))
+	}
 	if err := b.SendAuthHTTPRequest(ctx,
 		exchange.RestSpotSupplementary,
 		http.MethodGet,
 		allOrders,
+		params,
+		spotAllOrdersRate,
+		&resp); err != nil {
+		return resp, err
+	}
+	return resp, nil
+}
+
+// MyTrades Get all account trades
+// orderId optional param
+// fromId optional param, if fromId is set, it will get id >= that fromId
+// from optional param, int64 (ms)
+// to optional param, int64 (ms)
+// limit optional param, default 500; max 500
+func (b *Binance) MyTrades(ctx context.Context, symbol currency.Pair, orderId, fromId, from, to int64, limit int) ([]MyTradeData, error) {
+	var resp []MyTradeData
+
+	params := url.Values{}
+	symbolValue, err := b.FormatSymbol(symbol, asset.Spot)
+	if err != nil {
+		return resp, err
+	}
+	params.Set("symbol", symbolValue)
+	if orderId != 0 {
+		params.Set("orderId", fmt.Sprintf("%d", orderId))
+	}
+	if limit != 0 {
+		params.Set("limit", fmt.Sprintf("%d", limit))
+	}
+	if fromId != 0 {
+		params.Set("fromId", fmt.Sprintf("%d", fromId))
+	}
+	if from != 0 {
+		params.Set("startTime", fmt.Sprintf("%d", from))
+	}
+	if to != 0 {
+		params.Set("endTime", fmt.Sprintf("%d", to))
+	}
+	if err := b.SendAuthHTTPRequest(ctx,
+		exchange.RestSpotSupplementary,
+		http.MethodGet,
+		myTrades,
 		params,
 		spotAllOrdersRate,
 		&resp); err != nil {

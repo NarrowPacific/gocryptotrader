@@ -367,6 +367,23 @@ type NewOrderRequest struct {
 	NewOrderRespType string
 }
 
+type MyTradesData []MyTradeData
+type MyTradeData struct {
+	Symbol          string `json:"symbol"`
+	ID              int64  `json:"id"`
+	OrderID         int64  `json:"orderId"`
+	OrderListID     int64  `json:"orderListId"`
+	Price           string `json:"price"`
+	Qty             string `json:"qty"`
+	QuoteQty        string `json:"quoteQty"`
+	Commission      string `json:"commission"`
+	CommissionAsset string `json:"commissionAsset"`
+	Time            int64  `json:"time"`
+	IsBuyer         bool   `json:"isBuyer"`
+	IsMaker         bool   `json:"isMaker"`
+	IsBestMatch     bool   `json:"isBestMatch"`
+}
+
 // NewOrderResponse is the return structured response from the exchange
 type NewOrderResponse struct {
 	Code            int       `json:"code"`

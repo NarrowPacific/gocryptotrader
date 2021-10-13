@@ -1448,7 +1448,7 @@ func (b *Binance) GetOrderHistory(ctx context.Context, req *order.GetOrdersReque
 			resp, err := b.AllOrders(ctx,
 				req.Pairs[x],
 				"",
-				"1000")
+				"1000", 0, 0)
 			if err != nil {
 				return nil, err
 			}
