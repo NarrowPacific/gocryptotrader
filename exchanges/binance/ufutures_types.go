@@ -328,6 +328,8 @@ type UPositionInformationV2 struct {
 	Symbol               string  `json:"symbol"`
 	UnrealizedProfit     float64 `json:"unrealizedProfit,string"`
 	PositionSide         string  `json:"positionSide"`
+	Notional             string  `json:"notional"`
+	IsolatedWallet       string  `json:"isolatedWallet"`
 }
 
 // UAccountTradeHistory stores trade data for the users account
