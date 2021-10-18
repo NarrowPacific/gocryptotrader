@@ -42,6 +42,9 @@ type WalletDataV2 struct {
 	Currency          string
 	Balance           float64
 	UnsettledInterest float64
+	BalanceAvailable  float64
+	LastChange        string
+	TradeDetails      map[string]interface{}
 }
 
 // AcceptedOrderType defines the accepted market types, exchange strings denote non-contract order types.
@@ -123,6 +126,7 @@ type MarginFundingData struct {
 
 // Ticker holds ticker information
 type Ticker struct {
+	Symbol             string
 	FlashReturnRate    float64
 	Bid                float64
 	BidPeriod          int64

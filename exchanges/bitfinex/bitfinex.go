@@ -382,7 +382,7 @@ func (b *Bitfinex) GetAccountInfoV2(ctx context.Context) (AccountV2Data, error) 
 // GetV2Balances gets v2 balances
 func (b *Bitfinex) GetV2Balances(ctx context.Context) ([]WalletDataV2, error) {
 	var resp []WalletDataV2
-	var data [][4]interface{}
+	var data [][7]interface{}
 	err := b.SendAuthenticatedHTTPRequestV2(ctx,
 		exchange.RestSpot, http.MethodPost,
 		bitfinexV2Balances,
@@ -409,11 +409,26 @@ func (b *Bitfinex) GetV2Balances(ctx context.Context) ([]WalletDataV2, error) {
 		if !ok {
 			return resp, fmt.Errorf("%v GetV2Balances: %w for unsettledInterest", b.Name, errTypeAssert)
 		}
+		available, ok := data[x][4].(float64)
+		if !ok {
+			return resp, fmt.Errorf("%v GetV2Balances: %w for available", b.Name, errTypeAssert)
+		}
+		lastChange, ok := data[x][5].(string)
+		if !ok {
+			return resp, fmt.Errorf("%v GetV2Balances: %w for lastChange", b.Name, errTypeAssert)
+		}
+		tradeDetails, ok := data[x][6].(map[string]interface{})
+		if !ok {
+			return resp, fmt.Errorf("%v GetV2Balances: %w for tradeDetails", b.Name, errTypeAssert)
+		}
 		resp = append(resp, WalletDataV2{
 			WalletType:        wType,
 			Currency:          curr,
 			Balance:           bal,
 			UnsettledInterest: unsettledInterest,
+			BalanceAvailable:  available,
+			LastChange:        lastChange,
+			TradeDetails:      tradeDetails,
 		})
 	}
 	return resp, nil
@@ -528,6 +543,7 @@ func (b *Bitfinex) GetTickerBatch(ctx context.Context) (map[string]Ticker, error
 	for x := range response {
 		if len(response[x]) > 11 {
 			tickers[response[x][0].(string)] = Ticker{
+				Symbol:             response[x][0].(string),
 				FlashReturnRate:    response[x][1].(float64),
 				Bid:                response[x][2].(float64),
 				BidPeriod:          int64(response[x][3].(float64)),
