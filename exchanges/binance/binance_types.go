@@ -34,38 +34,40 @@ type ExchangeInfo struct {
 	} `json:"rateLimits"`
 	ExchangeFilters interface{} `json:"exchangeFilters"`
 	Symbols         []struct {
-		Symbol                     string   `json:"symbol"`
-		Status                     string   `json:"status"`
-		BaseAsset                  string   `json:"baseAsset"`
-		BaseAssetPrecision         int      `json:"baseAssetPrecision"`
-		QuoteAsset                 string   `json:"quoteAsset"`
-		QuotePrecision             int      `json:"quotePrecision"`
-		OrderTypes                 []string `json:"orderTypes"`
-		IcebergAllowed             bool     `json:"icebergAllowed"`
-		OCOAllowed                 bool     `json:"ocoAllowed"`
-		QuoteOrderQtyMarketAllowed bool     `json:"quoteOrderQtyMarketAllowed"`
-		IsSpotTradingAllowed       bool     `json:"isSpotTradingAllowed"`
-		IsMarginTradingAllowed     bool     `json:"isMarginTradingAllowed"`
-		Filters                    []struct {
-			FilterType          string  `json:"filterType"`
-			MinPrice            float64 `json:"minPrice,string"`
-			MaxPrice            float64 `json:"maxPrice,string"`
-			TickSize            float64 `json:"tickSize,string"`
-			MultiplierUp        float64 `json:"multiplierUp,string"`
-			MultiplierDown      float64 `json:"multiplierDown,string"`
-			AvgPriceMinutes     int64   `json:"avgPriceMins"`
-			MinQty              float64 `json:"minQty,string"`
-			MaxQty              float64 `json:"maxQty,string"`
-			StepSize            float64 `json:"stepSize,string"`
-			MinNotional         float64 `json:"minNotional,string"`
-			ApplyToMarket       bool    `json:"applyToMarket"`
-			Limit               int64   `json:"limit"`
-			MaxNumAlgoOrders    int64   `json:"maxNumAlgoOrders"`
-			MaxNumIcebergOrders int64   `json:"maxNumIcebergOrders"`
-			MaxNumOrders        int64   `json:"maxNumOrders"`
-		} `json:"filters"`
-		Permissions []string `json:"permissions"`
+		Symbol                     string                `json:"symbol"`
+		Status                     string                `json:"status"`
+		BaseAsset                  string                `json:"baseAsset"`
+		BaseAssetPrecision         int                   `json:"baseAssetPrecision"`
+		QuoteAsset                 string                `json:"quoteAsset"`
+		QuotePrecision             int                   `json:"quotePrecision"`
+		OrderTypes                 []string              `json:"orderTypes"`
+		IcebergAllowed             bool                  `json:"icebergAllowed"`
+		OCOAllowed                 bool                  `json:"ocoAllowed"`
+		QuoteOrderQtyMarketAllowed bool                  `json:"quoteOrderQtyMarketAllowed"`
+		IsSpotTradingAllowed       bool                  `json:"isSpotTradingAllowed"`
+		IsMarginTradingAllowed     bool                  `json:"isMarginTradingAllowed"`
+		Filters                    []ExchangeInfoFilters `json:"filters"`
+		Permissions                []string              `json:"permissions"`
 	} `json:"symbols"`
+}
+
+type ExchangeInfoFilters struct {
+	FilterType          string  `json:"filterType"`
+	MinPrice            float64 `json:"minPrice,string"`
+	MaxPrice            float64 `json:"maxPrice,string"`
+	TickSize            float64 `json:"tickSize,string"`
+	MultiplierUp        float64 `json:"multiplierUp,string"`
+	MultiplierDown      float64 `json:"multiplierDown,string"`
+	AvgPriceMinutes     int64   `json:"avgPriceMins"`
+	MinQty              float64 `json:"minQty,string"`
+	MaxQty              float64 `json:"maxQty,string"`
+	StepSize            float64 `json:"stepSize,string"`
+	MinNotional         float64 `json:"minNotional,string"`
+	ApplyToMarket       bool    `json:"applyToMarket"`
+	Limit               int64   `json:"limit"`
+	MaxNumAlgoOrders    int64   `json:"maxNumAlgoOrders"`
+	MaxNumIcebergOrders int64   `json:"maxNumIcebergOrders"`
+	MaxNumOrders        int64   `json:"maxNumOrders"`
 }
 
 // CoinInfo stores information about all supported coins
