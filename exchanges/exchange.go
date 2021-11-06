@@ -1343,6 +1343,9 @@ func (e *Endpoints) GetURLMap() map[string]string {
 
 // FormatSymbol formats the given pair to a string suitable for exchange API requests
 func (b *Base) FormatSymbol(pair currency.Pair, assetType asset.Item) (string, error) {
+	if pair.Suffix != "" {
+		return pair.String(), nil
+	}
 	pairFmt, err := b.GetPairFormat(assetType, true)
 	if err != nil {
 		return pair.String(), err
