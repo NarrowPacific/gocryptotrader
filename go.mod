@@ -1,4 +1,4 @@
-module github.com/thrasher-corp/gocryptotrader
+module github.com/NarrowPacific/gocryptotrader
 
 go 1.17
 
@@ -49,6 +49,11 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/thrasher-corp/gct-ta v0.0.0-20200623072738-f2b55b7f9f41
+	github.com/thrasher-corp/gocryptotrader v0.0.0-20211117044121-da3402476e0a
+	github.com/thrasher-corp/goose v2.7.0-rc4.0.20191002032028-0f2c2a27abdb+incompatible
+	github.com/thrasher-corp/sqlboiler v1.0.1-0.20191001234224-71e17f37a85e
+	github.com/urfave/cli/v2 v2.3.0
 	github.com/volatiletech/inflect v0.0.1 // indirect
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible // indirect
 	golang.org/x/sys v0.0.0-20211210111614-af8b64212486 // indirect
