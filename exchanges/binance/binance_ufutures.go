@@ -661,7 +661,9 @@ func (b *Binance) UFuturesNewOrder(ctx context.Context, symbol currency.Pair, si
 		params.Set("positionSide", positionSide)
 	}
 	params.Set("type", orderType)
-	params.Set("timeInForce", timeInForce)
+	if timeInForce != "" {
+		params.Set("timeInForce", timeInForce)
+	}
 	if reduceOnly {
 		params.Set("reduceOnly", "true")
 	}
