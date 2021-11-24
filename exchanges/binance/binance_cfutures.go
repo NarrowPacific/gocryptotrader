@@ -65,6 +65,7 @@ const (
 	cfuturesNotionalBracket       = "/dapi/v1/leverageBracket"
 	cfuturesUsersForceOrders      = "/dapi/v1/forceOrders"
 	cfuturesADLQuantile           = "/dapi/v1/adlQuantile"
+	cfuturesUserCommissionRate    = "/dapi/v1/commissionRate"
 
 	cfuturesLimit              = "LIMIT"
 	cfuturesMarket             = "MARKET"
@@ -1504,4 +1505,14 @@ func (b *Binance) FetchCoinMarginExchangeLimits(ctx context.Context) ([]order.Mi
 		})
 	}
 	return limits, nil
+}
+
+// GetUserCommissionRates gets account's commission rates
+func (b *Binance) GetUserCommissionRates(ctx context.Context, symbol string) (CommissionRateData, error) {
+	var resp CommissionRateData
+	params := url.Values{}
+	if symbol != "" {
+		params.Set("symbol", symbol)
+	}
+	return resp, b.SendAuthHTTPRequest(ctx, exchange.RestUSDTMargined, http.MethodGet, cfuturesUserCommissionRate, params, cFuturesDefaultRate, &resp)
 }

@@ -63,6 +63,7 @@ const (
 	ufuturesNotionalBracket       = "/fapi/v1/leverageBracket"
 	ufuturesUsersForceOrders      = "/fapi/v1/forceOrders"
 	ufuturesADLQuantile           = "/fapi/v1/adlQuantile"
+	ufuturesUserCommissionRate    = "/fapi/v1/commissionRate"
 )
 
 // UServerTime gets the server time
@@ -1180,4 +1181,14 @@ func (b *Binance) FetchUSDTMarginExchangeLimits(ctx context.Context) ([]order.Mi
 		})
 	}
 	return limits, nil
+}
+
+// UGetUserCommissions gets account's commission rates
+func (b *Binance) UGetUserCommissionRates(ctx context.Context, symbol string) (UCommissionRateData, error) {
+	var resp UCommissionRateData
+	params := url.Values{}
+	if symbol != "" {
+		params.Set("symbol", symbol)
+	}
+	return resp, b.SendAuthHTTPRequest(ctx, exchange.RestUSDTMargined, http.MethodGet, ufuturesUserCommissionRate, params, uFuturesDefaultRate, &resp)
 }

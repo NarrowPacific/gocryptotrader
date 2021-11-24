@@ -641,3 +641,10 @@ type CExchangeInfo struct {
 	} `json:"symbols"`
 	Timezone string `json:"timezone"`
 }
+
+// CommissionRateData stores commission rate of account
+type CommissionRateData struct {
+	Symbol              string  `json:"symbol"`
+	MakerCommissionRate float64 `json:"makerCommissionRate"`
+	TakerCommissionRate float64 `json:"takerCommissionRate"`
+}

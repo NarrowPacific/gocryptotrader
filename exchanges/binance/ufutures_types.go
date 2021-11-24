@@ -409,3 +409,10 @@ type UForceOrdersData struct {
 	Time          int64   `json:"time"`
 	UpdateTime    int64   `json:"updateTime"`
 }
+
+// UCommissionRateData stores commission rate of account
+type UCommissionRateData struct {
+	Symbol              string  `json:"symbol"`
+	MakerCommissionRate float64 `json:"makerCommissionRate"`
+	TakerCommissionRate float64 `json:"takerCommissionRate"`
+}
