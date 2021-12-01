@@ -414,9 +414,9 @@ func (b *Bitfinex) GetV2Balances(ctx context.Context) ([]WalletDataV2, error) {
 			return resp, fmt.Errorf("%v GetV2Balances: %w for available", b.Name, errTypeAssert)
 		}
 		lastChange, ok := data[x][5].(string)
-		if !ok {
-			return resp, fmt.Errorf("%v GetV2Balances: %w for lastChange", b.Name, errTypeAssert)
-		}
+		// if !ok {
+		// 	return resp, fmt.Errorf("%v GetV2Balances: %w for lastChange", b.Name, errTypeAssert)
+		// }
 		tradeDetails, ok := data[x][6].(map[string]interface{})
 		// if !ok {
 		// 	return resp, fmt.Errorf("%v GetV2Balances: %w for tradeDetails", b.Name, errTypeAssert)
