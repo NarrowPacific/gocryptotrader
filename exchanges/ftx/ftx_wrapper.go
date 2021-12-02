@@ -810,10 +810,10 @@ func (f *FTX) GetOrderInfo(ctx context.Context, orderID string, pair currency.Pa
 	if err != nil {
 		return resp, err
 	}
-	orderAssetType, err := f.GetPairAssetType(p)
-	if err != nil {
-		return resp, err
-	}
+	// orderAssetType, err := f.GetPairAssetType(p)
+	// if err != nil {
+	// 	return resp, err
+	// }
 	resp.ID = strconv.FormatInt(orderData.ID, 10)
 	resp.Amount = orderData.Size
 	resp.ClientOrderID = orderData.ClientID
@@ -821,7 +821,7 @@ func (f *FTX) GetOrderInfo(ctx context.Context, orderID string, pair currency.Pa
 	resp.Exchange = f.Name
 	resp.ExecutedAmount = orderData.Size - orderData.RemainingSize
 	resp.Pair = p
-	resp.AssetType = orderAssetType
+	resp.AssetType = assetType
 	resp.Price = orderData.Price
 	resp.RemainingAmount = orderData.RemainingSize
 	orderVars, err := orderData.GetCompatible(ctx, f)
