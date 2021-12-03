@@ -441,11 +441,11 @@ type FuturesPositionInformation struct {
 	MarkPrice        float64 `json:"markPrice,string"`
 	UnrealizedProfit float64 `json:"unRealizedProfit,string"`
 	LiquidationPrice float64 `json:"liquidation,string"`
-	Leverage         int64   `json:"leverage"`
-	MaxQty           float64 `json:"maxQty"`
+	Leverage         int64   `json:"leverage,string"`
+	MaxQty           float64 `json:"maxQty,string"`
 	MarginType       string  `json:"marginType"`
 	IsolatedMargin   float64 `json:"isolatedMargin,string"`
-	IsAutoAddMargin  bool    `json:"isAutoAddMargin"`
+	IsAutoAddMargin  bool    `json:"isAutoAddMargin,string"`
 	PositionSide     string  `json:"positionSide"`
 }
 
