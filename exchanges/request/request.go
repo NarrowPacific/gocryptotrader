@@ -140,16 +140,16 @@ func (r *Requester) doRequest(ctx context.Context, endpoint EndpointLimit, newRe
 			return err
 		}
 
-		if p.Verbose {
-			log.Debugf(log.RequestSys, "%s attempt %d request path: %s", r.Name, attempt, p.Path)
-			for k, d := range req.Header {
-				log.Debugf(log.RequestSys, "%s request header [%s]: %s", r.Name, k, d)
-			}
-			log.Debugf(log.RequestSys, "%s request type: %s", r.Name, p.Method)
-			if p.Body != nil {
-				log.Debugf(log.RequestSys, "%s request body: %v", r.Name, p.Body)
-			}
-		}
+		// if p.Verbose {
+		// 	log.Debugf(log.RequestSys, "%s attempt %d request path: %s", r.Name, attempt, p.Path)
+		// 	for k, d := range req.Header {
+		// 		log.Debugf(log.RequestSys, "%s request header [%s]: %s", r.Name, k, d)
+		// 	}
+		// 	log.Debugf(log.RequestSys, "%s request type: %s", r.Name, p.Method)
+		// 	if p.Body != nil {
+		// 		log.Debugf(log.RequestSys, "%s request body: %v", r.Name, p.Body)
+		// 	}
+		// }
 
 		start := time.Now()
 
@@ -243,18 +243,18 @@ func (r *Requester) doRequest(ctx context.Context, endpoint EndpointLimit, newRe
 		}
 
 		resp.Body.Close()
-		if p.Verbose {
-			log.Debugf(log.RequestSys,
-				"HTTP status: %s, Code: %v",
-				resp.Status,
-				resp.StatusCode)
-			if !p.HTTPDebugging {
-				log.Debugf(log.RequestSys,
-					"%s raw response: %s",
-					r.Name,
-					string(contents))
-			}
-		}
+		// if p.Verbose {
+		// 	log.Debugf(log.RequestSys,
+		// 		"HTTP status: %s, Code: %v",
+		// 		resp.Status,
+		// 		resp.StatusCode)
+		// 	if !p.HTTPDebugging {
+		// 		log.Debugf(log.RequestSys,
+		// 			"%s raw response: %s",
+		// 			r.Name,
+		// 			string(contents))
+		// 	}
+		// }
 		return unmarshallError
 	}
 }

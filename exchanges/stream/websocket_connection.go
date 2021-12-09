@@ -126,12 +126,12 @@ func (w *WebsocketConnection) SendRawMessage(messageType int, message []byte) er
 	w.writeControl.Lock()
 	defer w.writeControl.Unlock()
 
-	if w.Verbose {
-		log.Debugf(log.WebsocketMgr,
-			"%v websocket connection: sending message [%s]\n",
-			w.ExchangeName,
-			message)
-	}
+	// if w.Verbose {
+	// 	log.Debugf(log.WebsocketMgr,
+	// 		"%v websocket connection: sending message [%s]\n",
+	// 		w.ExchangeName,
+	// 		message)
+	// }
 	if w.RateLimit > 0 {
 		time.Sleep(time.Duration(w.RateLimit) * time.Millisecond)
 		if !w.IsConnected() {
