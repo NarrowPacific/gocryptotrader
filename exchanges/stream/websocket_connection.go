@@ -239,12 +239,13 @@ func (w *WebsocketConnection) ReadMessage() Response {
 			return Response{}
 		}
 	}
-	if w.Verbose {
-		log.Debugf(log.WebsocketMgr,
-			"%v websocket connection: message received: %v",
-			w.ExchangeName,
-			string(standardMessage))
-	}
+	// Remove log for websocket data received
+	// if w.Verbose {
+	// 	log.Debugf(log.WebsocketMgr,
+	// 		"%v websocket connection: message received: %v",
+	// 		w.ExchangeName,
+	// 		string(standardMessage))
+	// }
 	return Response{Raw: standardMessage, Type: mType}
 }
 
