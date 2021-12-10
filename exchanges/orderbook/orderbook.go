@@ -10,7 +10,6 @@ import (
 	"github.com/thrasher-corp/gocryptotrader/currency"
 	"github.com/thrasher-corp/gocryptotrader/dispatch"
 	"github.com/thrasher-corp/gocryptotrader/exchanges/asset"
-	"github.com/thrasher-corp/gocryptotrader/log"
 )
 
 // Get checks and returns the orderbook given an exchange name and currency pair
@@ -231,15 +230,15 @@ func (b *Base) Verify() error {
 	// level books. In the event that there is a massive liquidity change where
 	// a book dries up, this will still update so we do not traverse potential
 	// incorrect old data.
-	if len(b.Asks) == 0 || len(b.Bids) == 0 {
-		log.Warnf(log.OrderBook,
-			bookLengthIssue,
-			b.Exchange,
-			b.Pair,
-			b.Asset,
-			len(b.Bids),
-			len(b.Asks))
-	}
+	// if len(b.Asks) == 0 || len(b.Bids) == 0 {
+	// 	log.Warnf(log.OrderBook,
+	// 		bookLengthIssue,
+	// 		b.Exchange,
+	// 		b.Pair,
+	// 		b.Asset,
+	// 		len(b.Bids),
+	// 		len(b.Asks))
+	// }
 	err := checkAlignment(b.Bids, b.IsFundingRate, b.PriceDuplication, b.IDAlignment, dsc)
 	if err != nil {
 		return fmt.Errorf(bidLoadBookFailure, b.Exchange, b.Pair, b.Asset, err)
