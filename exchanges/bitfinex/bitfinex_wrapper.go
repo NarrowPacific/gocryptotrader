@@ -915,7 +915,7 @@ func (b *Bitfinex) GetActiveOrders(ctx context.Context, req *order.GetOrdersRequ
 			orderDetail.Status = order.Active
 		case resp[i].IsCancelled:
 			orderDetail.Status = order.Cancelled
-		case resp[i].IsHidden:
+		case resp[i].IsHidden > 0:
 			orderDetail.Status = order.Hidden
 		default:
 			orderDetail.Status = order.UnknownStatus
@@ -985,7 +985,7 @@ func (b *Bitfinex) GetOrderHistory(ctx context.Context, req *order.GetOrdersRequ
 			orderDetail.Status = order.Active
 		case resp[i].IsCancelled:
 			orderDetail.Status = order.Cancelled
-		case resp[i].IsHidden:
+		case resp[i].IsHidden > 0:
 			orderDetail.Status = order.Hidden
 		default:
 			orderDetail.Status = order.UnknownStatus
