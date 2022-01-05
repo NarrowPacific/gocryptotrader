@@ -354,6 +354,14 @@ type Withdrawal struct {
 	Amount       float64 `json:"amount,string"`
 }
 
+type Bool bool
+
+func (bit *Bool) UnmarshalJSON(b []byte) error {
+	txt := string(b)
+	*bit = Bool(txt == "1" || txt == "true")
+	return nil
+}
+
 // Order holds order information when an order is in the market
 type Order struct {
 	ID                    int64   `json:"id"`
@@ -366,7 +374,7 @@ type Order struct {
 	Timestamp             string  `json:"timestamp"`
 	IsLive                bool    `json:"is_live"`
 	IsCancelled           bool    `json:"is_cancelled"`
-	IsHidden              int32   `json:"is_hidden"`
+	IsHidden              Bool    `json:"is_hidden"`
 	WasForced             bool    `json:"was_forced"`
 	OriginalAmount        float64 `json:"original_amount,string"`
 	RemainingAmount       float64 `json:"remaining_amount,string"`
