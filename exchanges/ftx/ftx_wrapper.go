@@ -820,6 +820,7 @@ func (f *FTX) GetOrderInfo(ctx context.Context, orderID string, pair currency.Pa
 	resp.Date = orderData.CreatedAt
 	resp.Exchange = f.Name
 	resp.ExecutedAmount = orderData.Size - orderData.RemainingSize
+	resp.AverageExecutedPrice = orderData.AvgFillPrice
 	resp.Pair = p
 	resp.AssetType = assetType
 	resp.Price = orderData.Price

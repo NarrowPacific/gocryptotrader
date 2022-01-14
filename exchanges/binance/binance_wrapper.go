@@ -1210,6 +1210,7 @@ func (b *Binance) GetOrderInfo(ctx context.Context, orderID string, pair currenc
 		respData.ClientOrderID = orderData.ClientOrderID
 		respData.Exchange = b.Name
 		respData.ExecutedAmount = orderData.ExecutedQuantity
+		respData.AverageExecutedPrice = orderData.AveragePrice
 		respData.Fee = fee
 		respData.ID = orderID
 		respData.Pair = pair
@@ -1243,6 +1244,7 @@ func (b *Binance) GetOrderInfo(ctx context.Context, orderID string, pair currenc
 		respData.ID = orderID
 		respData.Pair = pair
 		respData.Price = orderData.Price
+		respData.AverageExecutedPrice = orderData.AveragePrice
 		respData.RemainingAmount = orderData.OriginalQuantity - orderData.ExecutedQuantity
 		respData.Side = orderVars.Side
 		respData.Status = orderVars.Status
