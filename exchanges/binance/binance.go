@@ -75,6 +75,7 @@ const (
 	depositHistory   = "/sapi/v1/capital/deposit/hisrec"
 	withdrawHistory  = "/sapi/v1/capital/withdraw/history"
 	depositAddress   = "/sapi/v1/capital/deposit/address"
+	transferEndpoint = "/sapi/v1/asset/transfer"
 
 	defaultRecvWindow     = 5 * time.Second
 	binanceSAPITimeLayout = "2006-01-02 15:04:05"
@@ -1037,6 +1038,28 @@ func (b *Binance) WithdrawCrypto(ctx context.Context, cryptoAsset, withdrawOrder
 	}
 
 	return resp.ID, nil
+}
+
+func (b *Binance) Transfer(ctx context.Context, asset string, amount float64, from string, to string) (string, error) {
+	if asset == "" || amount <= 0 || from == "" || to == "" {
+		return "", errors.New("asset, amount, from and to must not be empty")
+	}
+
+	params := url.Values{}
+	params.Set("asset", asset)
+	params.Set("amount", strconv.FormatFloat(amount, 'f', -1, 64))
+	params.Set("type", from+"_"+to)
+
+	var resp TransferResponse
+	if err := b.SendAuthHTTPRequest(ctx, exchange.RestSpotSupplementary,
+		http.MethodPost, transferEndpoint, params, spotDefaultRate, &resp); err != nil {
+		return "", err
+	}
+
+	if resp.ID == 0 {
+		return "", errors.New("tranID is empty")
+	}
+	return strconv.FormatInt(resp.ID, 10), nil
 }
 
 // DepositHistory returns the deposit history based on the supplied params

@@ -746,6 +746,10 @@ type DepositAddress struct {
 	URL     string `json:"url"`
 }
 
+type TransferResponse struct {
+	ID int64 `json:"tranId"`
+}
+
 // UserAccountStream contains a key to maintain an authorised
 // websocket connection
 type UserAccountStream struct {

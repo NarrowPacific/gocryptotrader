@@ -10,7 +10,6 @@ var (
 	validOrderTypes = map[order.Type]string{
 		order.ImmediateOrCancel: "ioc",
 		order.Limit:             "lmt",
-		order.Market:            "mkt",
 		order.Stop:              "stp",
 		order.PostOnly:          "post",
 		order.TakeProfit:        "take_profit",
