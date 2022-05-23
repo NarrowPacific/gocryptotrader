@@ -578,7 +578,8 @@ func (b *Binance) newOrder(ctx context.Context, api string, o *NewOrderRequest, 
 	} else {
 		params.Set("quantity", strconv.FormatFloat(o.Quantity, 'f', -1, 64))
 	}
-	if o.TradeType == BinanceRequestParamsOrderLimit {
+	switch o.TradeType {
+	case BinanceRequestParamsOrderLimit, BinanceRequestParamsOrderStopLossLimit, BinanceRequestParamsOrderTakeProfitLimit:
 		params.Set("price", strconv.FormatFloat(o.Price, 'f', -1, 64))
 	}
 	if o.TimeInForce != "" {
